@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Advocate — Responsible Service Training | Bear McBride Learning Design</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html{background:#f2f2f0;}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f2f2f0;min-height:100vh;padding:2rem 1rem;}
+.sim{max-width:680px;margin:0 auto;background:#fff;border-radius:14px;border:1px solid #e0e0e0;padding:1.75rem 1.5rem;}
+.brand-bar{display:flex;align-items:center;justify-content:space-between;padding-bottom:.75rem;border-bottom:1px solid #e8e8e8;margin-bottom:1.25rem;}
+.brand{font-size:11px;letter-spacing:.07em;color:#999;text-transform:uppercase;}
+.brand strong{color:#555;font-weight:600;}
+.stag{font-size:11px;background:#dbeafe;color:#1e40af;padding:3px 10px;border-radius:20px;letter-spacing:.03em;}
+.pips{display:flex;align-items:center;gap:6px;margin-bottom:1.25rem;}
+.pip{width:8px;height:8px;border-radius:50%;background:#e0e0e0;transition:background .3s;}
+.pip.done{background:#639922;}
+.pip.active{background:#222;}
+.plabel{font-size:12px;color:#aaa;margin-left:4px;}
+.scene{background:#f7f7f5;border:1px solid #ebebeb;border-radius:10px;padding:.85rem 1rem;margin-bottom:.9rem;font-size:13px;line-height:1.7;color:#555;}
+.slabel{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:#c0c0c0;margin-bottom:5px;}
+.chars{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:.9rem;}
+.char{background:#fff;border:1px solid #ebebeb;border-radius:10px;padding:.85rem;display:flex;flex-direction:column;align-items:center;gap:6px;transition:border-color .2s;}
+.char.on{border-color:#555;}
+.av{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;}
+.av.you{background:#f0f0ee;}
+.av.cal{background:#d1fae5;}
+.av.marco{background:#fee2e2;}
+.av.mgr{background:#ede9fe;}
+.cname{font-size:13px;font-weight:600;color:#222;}
+.crole{font-size:11px;color:#bbb;text-align:center;line-height:1.4;}
+.bub{background:#f7f7f5;border:1px solid #ebebeb;border-radius:10px;padding:.9rem 1rem;margin-bottom:.9rem;}
+.bspeaker{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#c0c0c0;margin-bottom:6px;}
+.btext{font-size:15px;line-height:1.7;color:#222;font-style:italic;}
+.prompt{font-size:14px;font-weight:600;color:#222;margin-bottom:10px;}
+.choices{display:flex;flex-direction:column;gap:8px;margin-bottom:.9rem;}
+.choice{background:#fff;border:1px solid #d0d0d0;border-radius:8px;padding:.8rem 1rem;font-size:14px;line-height:1.55;color:#222;text-align:left;cursor:pointer;width:100%;transition:background .15s,border-color .15s;}
+.choice:hover{background:#f7f7f5;border-color:#888;}
+.choice:active{background:#f0f0ee;}
+.res{border-radius:10px;padding:1.1rem;margin-bottom:.9rem;border:1px solid;}
+.res.bad{background:#fef2f2;border-color:#fca5a5;}
+.res.good{background:#f0fdf4;border-color:#86efac;}
+.res.info{background:#eff6ff;border-color:#93c5fd;}
+.rscene{font-size:14px;line-height:1.7;margin-bottom:10px;color:#333;}
+.rlabel{font-size:10px;text-transform:uppercase;letter-spacing:.09em;margin-bottom:5px;font-weight:700;}
+.res.bad .rlabel{color:#991b1b;}
+.res.good .rlabel{color:#166534;}
+.res.info .rlabel{color:#1e40af;}
+.rnote{font-size:13px;line-height:1.65;color:#444;}
+.navbtn{background:#fff;border:1px solid #d0d0d0;border-radius:8px;padding:.6rem 1.1rem;font-size:13px;color:#333;cursor:pointer;margin-top:4px;transition:background .15s;}
+.navbtn:hover{background:#f7f7f5;}
+.dbox{background:#f7f7f5;border:1px solid #ebebeb;border-radius:10px;padding:1.1rem;margin-bottom:.9rem;}
+.dtitle{font-size:13px;font-weight:600;color:#222;margin-bottom:10px;}
+.dpoint{font-size:13px;line-height:1.7;color:#555;padding:8px 0;border-bottom:1px solid #e8e8e8;}
+.dpoint:last-child{border-bottom:none;}
+.tkwy{border-left:3px solid #222;padding:.75rem 1rem;margin-bottom:1rem;background:#f9f9f7;}
+.tklabel{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:#c0c0c0;margin-bottom:5px;}
+.tktext{font-size:14px;line-height:1.65;font-style:italic;color:#222;}
+.done-row{display:flex;align-items:center;justify-content:space-between;padding-top:.25rem;flex-wrap:wrap;gap:10px;}
+.done-note{font-size:12px;color:#bbb;}
+.restart{background:#222;border:none;border-radius:8px;padding:.6rem 1.2rem;font-size:13px;color:#fff;cursor:pointer;transition:background .15s;}
+.restart:hover{background:#444;}
+@media(max-width:480px){
+  body{padding:1rem .5rem;}
+  .sim{padding:1.25rem 1rem;}
+  .chars{grid-template-columns:1fr 1fr;}
+  .btext{font-size:14px;}
+}
+</style>
+</head>
+<body>
+<div class="sim">
+  <div class="brand-bar">
+    <div class="brand"><strong>Bear McBride</strong> Learning Design</div>
+    <div class="stag">Scenario 2 of 3</div>
+  </div>
+  <div id="pips"></div>
+  <div id="screen"></div>
+</div>
+
+<script>
+(function(){
+
+var cur = 0;
+var visited = [];
+
+var S = {
+  INTRO:0, C_SERVE:1, HOLD1:2, MGR_EARLY:3,
+  PUSH2:4, C_EXPLAIN:5, C_COMP:6, RESOLUTION:7,
+  C_MOVEON:8, DEBRIEF:9
+};
+
+var mainLine = [S.INTRO, S.HOLD1, S.PUSH2, S.RESOLUTION, S.DEBRIEF];
+
+function markVisited(s){ if(visited.indexOf(s)<0) visited.push(s); }
+
+function renderPips(){
+  var idx = mainLine.indexOf(cur);
+  if(idx < 0){
+    idx = -1;
+    for(var i=0;i<mainLine.length;i++){
+      if(visited.indexOf(mainLine[i])>=0 && i > idx) idx = i;
+    }
+  }
+  var h = '<div class="pips">';
+  for(var i=0;i<mainLine.length;i++){
+    var c = i < idx ? 'done' : i===idx ? 'active' : '';
+    h += '<div class="pip '+c+'"></div>';
+  }
+  h += '<span class="plabel">'+Math.max(idx,0)+' of '+(mainLine.length-1)+'</span></div>';
+  document.getElementById('pips').innerHTML = h;
+}
+
+function sc(text){
+  return '<div class="scene"><div class="slabel">Scene</div>'+text+'</div>';
+}
+function bub(who, text){
+  return '<div class="bub"><div class="bspeaker">'+who+'</div><div class="btext">\u201c'+text+'\u201d</div></div>';
+}
+function charGrid(list){
+  var h='<div class="chars">';
+  list.forEach(function(c){
+    h+='<div class="char'+(c.on?' on':'')+'"><div class="av '+c.type+'">'+c.icon+'</div><div class="cname">'+c.name+'</div><div class="crole">'+c.role+'</div></div>';
+  });
+  return h+'</div>';
+}
+function res(type, scene, note){
+  var label = type==='bad'?'What happened':type==='good'?'Good call':'Coach note';
+  return '<div class="res '+type+'"><div class="rscene">'+scene+'</div><div class="rlabel">'+label+'</div><div class="rnote">'+note+'</div></div>';
+}
+
+function render(){
+  renderPips();
+  markVisited(cur);
+  var h = '';
+
+  if(cur===S.INTRO){
+    h += sc("It\u2019s Saturday night. Forty minutes ago you cut Marco off\u2014slurring, knocking things over, repeating himself. He accepted it. He\u2019s been sitting with water ever since. You think the hard part is over.");
+    h += charGrid([
+      {type:'you',icon:'&#128085;',name:'You',role:'Bartender',on:true},
+      {type:'marco',icon:'&#129491;',name:'Marco',role:'Guest \u2014 cut off'},
+      {type:'cal',icon:'&#129492;',name:'Cal',role:"Marco\u2019s friend \u2014 just arrived"},
+      {type:'mgr',icon:'&#128188;',name:'Manager',role:'On the floor tonight'}
+    ]);
+    h += sc("Cal walks up to the bar. Composed. Unhurried. He waits until you make eye contact.");
+    h += bub("Cal","Hey. Look\u2014I know you cut Marco off, and honestly I get it. I\u2019m not here to give you a hard time. I\u2019m driving tonight. I\u2019ve got him. I just want to order one more for him and I\u2019ll personally make sure he gets home safe. You have my word.");
+    h += '<div class="prompt">How do you handle this?</div>';
+    h += '<div class="choices">';
+    h += '<button class="choice" data-go="serve">That sounds reasonable. Cal\u2019s sober, he\u2019s taking responsibility\u2014let him order one more for Marco.</button>';
+    h += '<button class="choice" data-go="hold1">Appreciate it, but the call stands. I\u2019m not going to change it.</button>';
+    h += '<button class="choice" data-go="mgr_early">Step back and get the manager.</button>';
+    h += '</div>';
+
+  } else if(cur===S.C_SERVE){
+    h += res('bad',
+      "You pour it. Cal thanks you and carries it back. An hour later Marco is leaving\u2014and he slips on the steps outside. Someone calls 911. Two cops show up while you\u2019re still on shift. You\u2019re writing an incident report at midnight.",
+      "Cal was credible. The argument was reasonable. Neither of those things changed what you already knew about Marco. A convincing case for reversing a correct call is still just a case for reversing a correct call."
+    );
+    h += '<button class="navbtn" data-go="back_intro">\u2190 Back to the moment</button>';
+
+  } else if(cur===S.HOLD1){
+    h += charGrid([
+      {type:'you',icon:'&#128085;',name:'You',role:'Bartender',on:true},
+      {type:'cal',icon:'&#129492;',name:'Cal',role:"Marco\u2019s friend"}
+    ]);
+    h += bub("You","I appreciate that\u2014I can tell you\u2019re looking out for him. But I\u2019ve already made that call and I\u2019m not going to change it. I can get him some water, or help you sort out a ride.");
+    h += sc("Cal nods. Seems fine. Goes back to the table. You turn to your next ticket. Thirty seconds later, he\u2019s back.");
+    h += '<button class="navbtn" data-go="push2">Keep going \u2192</button>';
+
+  } else if(cur===S.MGR_EARLY){
+    h += charGrid([
+      {type:'cal',icon:'&#129492;',name:'Cal',role:"Marco\u2019s friend"},
+      {type:'mgr',icon:'&#128188;',name:'Manager',role:'Handling it',on:true}
+    ]);
+    h += res('info',
+      "You step back and get the manager. The manager handles it\u2014backs your call directly. Cal listens, nods, and returns to the table. Marco finishes his water. The group leaves without incident.",
+      "This is exactly right. You didn\u2019t second-guess your own decision\u2014you brought in support. The manager call isn\u2019t a sign you weren\u2019t sure. It\u2019s what the protocol is there for."
+    );
+    h += '<div class="prompt">Before end of shift\u2014mention what happened to your manager, or move on?</div>';
+    h += '<div class="choices">';
+    h += '<button class="choice" data-go="move_on">It\u2019s handled. Move on.</button>';
+    h += '<button class="choice" data-go="report">Find the manager and give them a quick heads-up before the shift ends.</button>';
+    h += '</div>';
+
+  } else if(cur===S.PUSH2){
+    h += charGrid([
+      {type:'cal',icon:'&#129492;',name:'Cal',role:"Marco\u2019s friend",on:true},
+      {type:'you',icon:'&#128085;',name:'You',role:'Bartender'}
+    ]);
+    h += bub("Cal","Look\u2014I\u2019ve known Marco for fifteen years. He is not going to cause a problem, I promise you that. You\u2019re going to make this a whole thing over nothing. Come on. One drink.");
+    h += '<div class="prompt">Different angle. More weight. What do you do?</div>';
+    h += '<div class="choices">';
+    h += '<button class="choice" data-go="explain">Walk him through your reasoning\u2014explain why the policy exists and why you can\u2019t make exceptions.</button>';
+    h += '<button class="choice" data-go="compromise">Offer a middle ground\u2014one beer, nothing stronger.</button>';
+    h += '<button class="choice" data-go="hold2">Same answer as before. The call stands. Water or a ride\u2014and if he keeps pushing, get the manager.</button>';
+    h += '</div>';
+
+  } else if(cur===S.C_EXPLAIN){
+    h += res('bad',
+      "You explain the liability. The policy. Why it exists. Cal listens carefully\u2014and finds a new angle. Now you\u2019re four exchanges deep and the conversation isn\u2019t ending.",
+      "The second ask was designed to make you feel like your first answer wasn\u2019t enough. It was. The moment you started explaining, you signaled the decision was still open. He heard that."
+    );
+    h += '<button class="navbtn" data-go="back_push2">\u2190 Back to the moment</button>';
+
+  } else if(cur===S.C_COMP){
+    h += res('bad',
+      "You offer a beer instead of a cocktail. Cal takes it back to Marco. The table relaxes. But you just renegotiated a decision that was already correctly made.",
+      "A compromise feels like a reasonable middle ground. What it actually signals is that the cutoff was negotiable. It wasn\u2019t. If the decision was right\u2014and it was\u2014it doesn\u2019t need a qualifier."
+    );
+    h += '<button class="navbtn" data-go="back_push2">\u2190 Back to the moment</button>';
+
+  } else if(cur===S.RESOLUTION){
+    h += res('good',
+      "Cal pauses. He\u2019s not happy. He goes back to the table without another word. Marco finishes his water. The group settles their tab and leaves without incident.",
+      "That\u2019s the move. You said it once. You didn\u2019t defend it, negotiate it, or soften it. The decision was already made."
+    );
+    h += '<div class="prompt">Before end of shift\u2014mention what happened to your manager, or move on?</div>';
+    h += '<div class="choices">';
+    h += '<button class="choice" data-go="move_on">It\u2019s handled. Move on.</button>';
+    h += '<button class="choice" data-go="report">Find the manager and give them a quick heads-up before the shift ends.</button>';
+    h += '</div>';
+
+  } else if(cur===S.C_MOVEON){
+    h += res('info',
+      "Nothing comes of it tonight. But your manager doesn\u2019t know it happened.",
+      "Your instinct is right\u2014it\u2019s over. But incidents like this are worth a quick mention before end of shift. Not a formal report. Just a heads-up. It keeps your manager informed and protects you if anything surfaces later."
+    );
+    h += '<button class="navbtn" data-go="debrief">Go to debrief \u2192</button>';
+
+  } else if(cur===S.DEBRIEF){
+    h += '<div class="dbox"><div class="dtitle">What this scenario was testing</div>';
+    h += '<div class="dpoint">Third-party lobbying is a different problem than cutting someone off. The correct call was already made. The scenario tests whether you hold it under pressure\u2014not whether you make it.</div>';
+    h += '<div class="dpoint">The second attempt is a deliberate tactic. Cal came back with a different angle because the first one didn\u2019t work. That\u2019s not new information. It\u2019s pressure. Your answer doesn\u2019t change because the framing does.</div>';
+    h += '<div class="dpoint">Explaining your reasoning signals the decision is still open. Once you start defending the call, you\u2019re negotiating. State it once. Then stop talking.</div>';
+    h += '<div class="dpoint">Calling the manager is always a valid move\u2014not a fallback. Either path (hold the line or get the manager) is correct. Both close the conversation without reopening it.</div>';
+    h += '</div>';
+    h += '<div class="tkwy"><div class="tklabel">Key takeaway</div><div class="tktext">The moment someone tries to reverse your call, the conversation is already over. The second try is just more pressure. Your answer doesn\u2019t change.</div></div>';
+    h += '<div class="done-row">';
+    h += '<div class="done-note">Scenario 2 complete \u2014 Responsible Service Training \u00a0\u2022\u00a0 Bear McBride Learning Design</div>';
+    h += '<button class="restart" data-go="restart">Start over</button>';
+    h += '</div>';
+  }
+
+  document.getElementById('screen').innerHTML = h;
+
+  document.querySelectorAll('[data-go]').forEach(function(el){
+    el.addEventListener('click', function(){
+      go(this.getAttribute('data-go'));
+    });
+  });
+
+  window.scrollTo(0,0);
+}
+
+function go(action){
+  if(action==='serve') cur=S.C_SERVE;
+  else if(action==='hold1') cur=S.HOLD1;
+  else if(action==='mgr_early') cur=S.MGR_EARLY;
+  else if(action==='push2') cur=S.PUSH2;
+  else if(action==='explain') cur=S.C_EXPLAIN;
+  else if(action==='compromise') cur=S.C_COMP;
+  else if(action==='hold2') cur=S.RESOLUTION;
+  else if(action==='move_on') cur=S.C_MOVEON;
+  else if(action==='report') cur=S.DEBRIEF;
+  else if(action==='debrief') cur=S.DEBRIEF;
+  else if(action==='back_intro') cur=S.INTRO;
+  else if(action==='back_push2') cur=S.PUSH2;
+  else if(action==='restart'){ cur=S.INTRO; visited=[]; }
+  render();
+}
+
+render();
+})();
+</script>
+</body>
+</html>
