@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scenario 1 Debrief | Bear McBride Learning Design</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:#1a1a2e;min-height:100vh;font-family:system-ui,-apple-system,sans-serif;}
+.wrap{max-width:680px;margin:0 auto;padding:1.5rem 1rem;}
+.header{display:flex;align-items:center;gap:12px;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px solid #2c2c4a;}
+.mgr-av{width:44px;height:44px;border-radius:50%;background:#ede9fe;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.mgr-name{font-size:14px;font-weight:600;color:#fff;}
+.mgr-title{font-size:11px;color:#8888aa;}
+.brand{font-size:10px;color:#555577;text-transform:uppercase;letter-spacing:.07em;margin-left:auto;}
+.msg{margin-bottom:.85rem;}
+.msg-label{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:#666688;margin-bottom:4px;}
+.msg-bubble{font-size:14px;line-height:1.65;padding:.75rem .9rem;border-radius:8px;}
+.msg.mgr .msg-bubble{background:#252540;border:1px solid #2c2c4a;color:#ddddf0;}
+.msg.you .msg-bubble{background:#2c3e6b;color:#fff;margin-left:2.5rem;}
+.msg.you .msg-label{text-align:right;color:#666688;}
+.point-reveal{background:#252540;border:1px solid #2c2c4a;border-radius:8px;padding:.75rem .9rem;margin-bottom:8px;font-size:13px;line-height:1.65;color:#ccccee;opacity:0;transform:translateY(5px);transition:opacity .4s,transform .4s;}
+.point-reveal.show{opacity:1;transform:translateY(0);}
+.point-label{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:#8888aa;margin-bottom:4px;font-weight:600;}
+.tkwy{border-left:3px solid #534ab7;padding:.75rem 1rem;margin:.85rem 0;background:#252540;border-radius:0;}
+.tklabel{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#8888aa;margin-bottom:4px;}
+.tktext{font-size:14px;line-height:1.6;font-style:italic;color:#ddddf0;}
+.typing{display:flex;align-items:center;gap:5px;padding:.75rem .9rem;background:#252540;border:1px solid #2c2c4a;border-radius:8px;width:fit-content;margin-bottom:.85rem;}
+.dot{width:6px;height:6px;border-radius:50%;background:#666688;animation:bounce .9s infinite;}
+.dot:nth-child(2){animation-delay:.15s;}
+.dot:nth-child(3){animation-delay:.3s;}
+@keyframes bounce{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-5px);}}
+.chips-label{font-size:12px;color:#666688;margin-bottom:6px;}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:.85rem;}
+.chip{background:#252540;border:1px solid #3c3c5a;border-radius:20px;padding:5px 12px;font-size:12px;color:#aaaacc;cursor:pointer;transition:background .15s,border-color .15s;}
+.chip:hover{background:#2c2c4a;border-color:#6666aa;}
+.divider{height:1px;background:#2c2c4a;margin:.85rem 0;}
+.input-row{display:flex;gap:8px;margin-top:.5rem;}
+.chat-input{flex:1;padding:.65rem .85rem;border:1px solid #3c3c5a;border-radius:8px;font-size:14px;font-family:inherit;resize:none;outline:none;background:#252540;color:#ddddf0;transition:border-color .15s;}
+.chat-input:focus{border-color:#7f77dd;}
+.chat-input::placeholder{color:#555577;}
+.send-btn{background:#534ab7;border:none;border-radius:8px;padding:.65rem 1.1rem;font-size:13px;color:#fff;cursor:pointer;white-space:nowrap;transition:background .15s;}
+.send-btn:hover{background:#7f77dd;}
+.send-btn:disabled{background:#333355;color:#666688;cursor:default;}
+.api-note{font-size:11px;color:#444466;text-align:center;padding:.5rem 0;margin-top:.5rem;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div class="mgr-av">&#128188;</div>
+    <div>
+      <div class="mgr-name">Manager</div>
+      <div class="mgr-title">End-of-shift debrief &mdash; Scenario 1</div>
+    </div>
+    <div class="brand">Bear McBride Learning Design</div>
+  </div>
+
+  <div id="opening-msg" class="msg mgr" style="opacity:0;transition:opacity .5s">
+    <div class="msg-label">Manager</div>
+    <div class="msg-bubble" id="opening-text"></div>
+  </div>
+
+  <div id="points-area"></div>
+  <div id="tkwy-area"></div>
+  <div id="chips-area"></div>
+  <div id="convo-area"></div>
+
+  <div id="input-area" style="display:none">
+    <div class="divider"></div>
+    <div class="input-row">
+      <textarea class="chat-input" id="chat-input" rows="2" placeholder="Type your own question..."></textarea>
+      <button class="send-btn" id="send-btn">Send</button>
+    </div>
+    <div class="api-note">Powered by Claude AI &mdash; responses are live</div>
+  </div>
+</div>
+
+<script>
+(function(){
+
+var params = new URLSearchParams(window.location.search);
+var wrongPoured = params.get('poured') === 'true';
+var wrongChecked = params.get('checked') === 'true';
+var wrongAbrupt = params.get('abrupt') === 'true';
+var tookWrongPath = wrongPoured || wrongChecked || wrongAbrupt;
+
+var conversationHistory = [];
+
+var openingLine = tookWrongPath
+  ? "Alright, let\u2019s talk through tonight. The Marco situation\u2014you got there in the end, but there were some moments I want to make sure land for you."
+  : "Good work tonight. The Marco cutoff\u2014you handled that the way it\u2019s supposed to be handled. Let\u2019s talk through what made it work.";
+
+var points = [
+  {label:'Reading the signs', text:'Multiple cues together\u2014speech, coordination, repetition, pace\u2014are your signal. No single sign is definitive. The pattern is. With a regular like Marco, you also know his baseline, which means you notice faster.'},
+  {label:'Kind and firm', text:'Cutting someone off doesn\u2019t have to be a confrontation. \u201cI\u2019m going to get you some water and close you out\u201d does the same job as \u201cI\u2019m cutting you off\u201d without putting him on the defensive in front of his friends.'},
+  {label:'Don\u2019t leave it open', text:'Once you\u2019ve made the call, the conversation is over. Staying in it too long, explaining yourself, or leaving room for negotiation is where it falls apart. Say it, offer the water, move on.'},
+  {label:'Close the loop', text:'Offering a ride or checking in once more before your next ticket isn\u2019t required\u2014but it\u2019s the professional move. It protects everyone and it\u2019s the kind of thing that keeps a regular coming back.'}
+];
+
+var correctChips = [
+  'Why does the approach matter if the decision is the same either way?',
+  'How do you handle it if Marco pushes back or gets angry?',
+  'What if his friends at the table get involved?',
+  'How do you rebuild the relationship with a regular after cutting them off?'
+];
+
+var wrongChips = [
+  'Why is checking in first the wrong move when the signs are clear?',
+  'What\u2019s the difference between \u201cI\u2019m cutting you off\u201d and offering water and closing the tab?',
+  'How do you handle it if Marco pushes back or gets angry?',
+  'What if his friends at the table get involved?'
+];
+
+var chips = tookWrongPath ? wrongChips : correctChips;
+
+function start(){
+  var om = document.getElementById('opening-msg');
+  var ot = document.getElementById('opening-text');
+  if(ot) ot.textContent = openingLine;
+  setTimeout(function(){
+    if(om) om.style.opacity = '1';
+    setTimeout(function(){
+      revealPoints(0, function(){
+        showTakeaway(function(){
+          showChips();
+          showInput();
+        });
+      });
+    }, 600);
+  }, 300);
+}
+
+function revealPoints(idx, cb){
+  if(idx >= points.length){ setTimeout(cb, 400); return; }
+  var area = document.getElementById('points-area');
+  if(!area) return;
+  var d = document.createElement('div');
+  d.className = 'point-reveal';
+  d.innerHTML = '<div class="point-label">'+points[idx].label+'</div>'+points[idx].text;
+  area.appendChild(d);
+  setTimeout(function(){ d.classList.add('show'); }, 50);
+  setTimeout(function(){ revealPoints(idx+1, cb); }, 700);
+}
+
+function showTakeaway(cb){
+  var area = document.getElementById('tkwy-area');
+  if(!area) return;
+  var d = document.createElement('div');
+  d.className = 'tkwy';
+  d.style.cssText = 'opacity:0;transition:opacity .5s;';
+  d.innerHTML = '<div class="tklabel">Key takeaway</div><div class="tktext">The decision is made when the signs are clear. Everything after that is execution.</div>';
+  area.appendChild(d);
+  setTimeout(function(){ d.style.opacity='1'; setTimeout(cb, 500); }, 100);
+}
+
+function showChips(){
+  var area = document.getElementById('chips-area');
+  if(!area) return;
+  var h = '<div class="chips-label">Ask the manager a question:</div><div class="chips">';
+  chips.forEach(function(c, i){
+    h += '<button class="chip" id="chip-'+i+'" data-q="'+c.replace(/"/g,'&quot;')+'">'+c+'</button>';
+  });
+  h += '</div>';
+  area.innerHTML = h;
+  chips.forEach(function(c, i){
+    var el = document.getElementById('chip-'+i);
+    if(el){
+      el.addEventListener('click', function(){
+        var q = this.getAttribute('data-q');
+        document.getElementById('chips-area').innerHTML = '';
+        askAI(q);
+      });
+    }
+  });
+}
+
+function showInput(){
+  var ia = document.getElementById('input-area');
+  if(ia) ia.style.display = 'block';
+  var sb = document.getElementById('send-btn');
+  var ci = document.getElementById('chat-input');
+  if(sb && ci){
+    sb.addEventListener('click', function(){
+      var q = ci.value.trim();
+      if(q){ ci.value=''; askAI(q); }
+    });
+    ci.addEventListener('keydown', function(e){
+      if(e.key==='Enter' && !e.shiftKey){
+        e.preventDefault();
+        var q = ci.value.trim();
+        if(q){ ci.value=''; askAI(q); }
+      }
+    });
+  }
+}
+
+function addMessage(role, text){
+  var area = document.getElementById('convo-area');
+  if(!area) return;
+  var d = document.createElement('div');
+  d.className = 'msg '+role;
+  var label = role==='mgr' ? 'Manager' : 'You';
+  d.innerHTML = '<div class="msg-label">'+label+'</div><div class="msg-bubble">'+text+'</div>';
+  area.appendChild(d);
+  d.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function showTyping(){
+  var area = document.getElementById('convo-area');
+  if(!area) return null;
+  var d = document.createElement('div');
+  d.className = 'msg mgr';
+  d.innerHTML = '<div class="msg-label">Manager</div><div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
+  area.appendChild(d);
+  d.scrollIntoView({behavior:'smooth', block:'nearest'});
+  return d;
+}
+
+function buildWrongPathContext(){
+  var parts = [];
+  if(wrongPoured) parts.push('poured a round for Marco even though the signs of intoxication were clear');
+  if(wrongChecked) parts.push('tried to check in with Marco first rather than acting on the clear signs');
+  if(wrongAbrupt) parts.push('used a blunt cutoff approach ("I\'m cutting you off") that put Marco on the defensive');
+  if(parts.length === 0) return 'The bartender navigated the scenario correctly on all decision points.';
+  return 'The bartender made the following wrong choices during the scenario before finding the correct path: '+parts.join('; ')+'.';
+}
+
+function askAI(question){
+  addMessage('you', question);
+  var typing = showTyping();
+  var sb = document.getElementById('send-btn');
+  if(sb) sb.disabled = true;
+
+  conversationHistory.push({role:'user', content:question});
+
+  var systemPrompt = "You are the manager of a bar, debriefing a new bartender after a training scenario about cutting off an intoxicated regular named Marco.\n\nScenario details: Marco had been at the bar since happy hour. By 9 PM he was slurring slightly, had knocked things over, and was repeating himself. The bartender's job was to cut him off -- kind, firm, and without leaving the door open for negotiation. The correct approach was something like 'I'm going to get you some water and close you out' rather than 'I'm cutting you off.' After the cutoff, the bartender should offer water, food, or a ride, then move on without over-explaining.\n\n"+buildWrongPathContext()+"\n\nKey principles to draw on:\n- Multiple behavioral cues together (not a single sign) are the signal to act\n- With regulars, knowing their baseline is an advantage -- and a bias risk\n- Kind and firm is not a contradiction. The approach affects whether the situation stays calm.\n- Once the decision is made, don't stay in the conversation -- offer water, offer a ride, move on\n- Offering a ride closes the professional loop and protects everyone\n- Calling the manager is always valid if you're uncertain\n\nYour tone: warm, direct, experienced. You're a good manager who wants this bartender to succeed. Speak conversationally, like a real manager after a real shift. Keep responses to 3-5 sentences. No bullet points. Draw on the specific details of this scenario when relevant.";
+
+  fetch('/.netlify/functions/claude-proxy', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 300,
+      system: systemPrompt,
+      messages: conversationHistory
+    })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    if(typing && typing.parentNode) typing.parentNode.removeChild(typing);
+    var text = '';
+    if(data && data.content && data.content.length > 0){
+      data.content.forEach(function(b){ if(b.type==='text') text += b.text; });
+    }
+    if(!text) text = "Good question. The thing I always tell new bartenders is that the approach matters as much as the decision -- you can make the right call and still create a scene if you do it wrong. Kind and firm gets you the same outcome without the blowback.";
+    conversationHistory.push({role:'assistant', content:text});
+    addMessage('mgr', text);
+    if(sb) sb.disabled = false;
+  })
+  .catch(function(){
+    if(typing && typing.parentNode) typing.parentNode.removeChild(typing);
+    var fallback = "Good question. The thing I always tell new bartenders is that the approach matters as much as the decision -- you can make the right call and still create a scene if you do it wrong. Kind and firm gets you the same outcome without the blowback.";
+    addMessage('mgr', fallback);
+    conversationHistory.push({role:'assistant', content:fallback});
+    if(sb) sb.disabled = false;
+  });
+}
+
+start();
+})();
+</script>
+</body>
+</html>
