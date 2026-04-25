@@ -131,41 +131,31 @@ function start(){
   var om = document.getElementById('opening-msg');
   var ot = document.getElementById('opening-text');
   if(ot) ot.textContent = getOpeningLine();
+  if(om) om.style.opacity = '1';
 
-  setTimeout(function(){
-    if(om) om.style.opacity = '1';
-    setTimeout(function(){
-      revealPoints(0, function(){
-        showTakeaway(function(){
-          showChips();
-          showInput();
-        });
-      });
-    }, 600);
-  }, 300);
+  showPoints();
+  showTakeaway();
+  showChips();
+  showInput();
 }
 
-function revealPoints(idx, cb){
-  if(idx >= points.length){ setTimeout(cb, 400); return; }
+function showPoints(){
   var area = document.getElementById('points-area');
   if(!area) return;
-  var d = document.createElement('div');
-  d.className = 'point-reveal';
-  d.innerHTML = '<div class="point-label">'+points[idx].label+'</div>'+points[idx].text;
-  area.appendChild(d);
-  setTimeout(function(){ d.classList.add('show'); }, 50);
-  setTimeout(function(){ revealPoints(idx+1, cb); }, 700);
+
+  var html = '';
+  points.forEach(function(point){
+    html += '<div class="point-reveal show">';
+    html += '<div class="point-label">'+point.label+'</div>'+point.text;
+    html += '</div>';
+  });
+  area.innerHTML = html;
 }
 
-function showTakeaway(cb){
+function showTakeaway(){
   var area = document.getElementById('tkwy-area');
   if(!area) return;
-  var d = document.createElement('div');
-  d.className = 'tkwy';
-  d.style.cssText = 'opacity:0;transition:opacity .5s;';
-  d.innerHTML = '<div class="tklabel">Key takeaway</div><div class="tktext">The decision is made when the signs are clear. Everything after that is execution.</div>';
-  area.appendChild(d);
-  setTimeout(function(){ d.style.opacity='1'; setTimeout(cb, 500); }, 100);
+  area.innerHTML = '<div class="tkwy"><div class="tklabel">Key takeaway</div><div class="tktext">The decision is made when the signs are clear. Everything after that is execution.</div></div>';
 }
 
 function showChips(){
@@ -256,7 +246,7 @@ function askAI(question){
 
   conversationHistory.push({role:'user', content:question});
 
-  var systemPrompt = "You are the manager of a bar, debriefing a new bartender after a training scenario about cutting off an intoxicated regular named Marco.\\n\\nScenario details: Marco had been at the bar since happy hour. By 9 PM he was slurring slightly, had knocked things over, and was repeating himself. The bartender's job was to cut him off -- kind, firm, and without leaving the door open for negotiation. The correct approach was something like 'I'm going to get you some water and close you out' rather than 'I'm cutting you off.' After the cutoff, the bartender should offer water, food, or a ride, then move on without over-explaining.\\n\\n"+buildWrongPathContext()+"\\n\\nKey principles to draw on:\\n- Multiple behavioral cues together (not a single sign) are the signal to act\\n- With regulars, knowing their baseline is an advantage -- and a bias risk\\n- Kind and firm is not a contradiction. The approach affects whether the situation stays calm.\\n- Once the decision is made, don't stay in the conversation -- offer water, offer a ride, move on\\n- Offering a ride closes the professional loop and protects everyone\\n- Calling the manager is always valid if you're uncertain\\n\\nYour tone: warm, direct, experienced. You're a good manager who wants this bartender to succeed. Speak conversationally, like a real manager after a real shift. Keep responses to 3-5 sentences. No bullet points. Draw on the specific details of this scenario when relevant.";
+  var systemPrompt = "You are the manager of a bar, debriefing a new bartender after a training scenario about cutting off an intoxicated regular named Marco.\n\nScenario details: Marco had been at the bar since happy hour. By 9 PM he was slurring slightly, had knocked things over, and was repeating himself. The bartender's job was to cut him off -- kind, firm, and without leaving the door open for negotiation. The correct approach was something like 'I'm going to get you some water and close you out' rather than 'I'm cutting you off.' After the cutoff, the bartender should offer water, food, or a ride, then move on without over-explaining.\n\n"+buildWrongPathContext()+"\n\nKey principles to draw on:\n- Multiple behavioral cues together (not a single sign) are the signal to act\n- With regulars, knowing their baseline is an advantage -- and a bias risk\n- Kind and firm is not a contradiction. The approach affects whether the situation stays calm.\n- Once the decision is made, don't stay in the conversation -- offer water, offer a ride, move on\n- Offering a ride closes the professional loop and protects everyone\n- Calling the manager is always valid if you're uncertain\n\nYour tone: warm, direct, experienced. You're a good manager who wants this bartender to succeed. Speak conversationally, like a real manager after a real shift. Keep responses to 3-5 sentences. No bullet points. Draw on the specific details of this scenario when relevant.";
 
   fetch('/.netlify/functions/claude-proxy', {
     method: 'POST',
@@ -297,7 +287,7 @@ window.addEventListener("message", function(event){
 
 window.parent.postMessage({ type: "debrief-ready" }, "*");
 
-// fallback so the page still renders if no parent message arrives
+// fallback if no parent message arrives
 setTimeout(function(){
   start();
 }, 1500);
