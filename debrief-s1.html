@@ -293,24 +293,64 @@
       }
 
       function getPoints() {
-        return [
-          {
+        var points = [];
+
+        if (!tookWrongPath) {
+          points.push({
             label: "Reading the signs",
-            text: "Multiple cues together—speech, coordination, repetition, pace—are your signal. No single sign is definitive. The pattern is. With a regular like Marco, you also know his baseline, which means you notice faster."
-          },
-          {
+            text: "You made the call when the pattern was clear. That’s the job. No single sign makes the decision for you — it’s the combination of cues, and with a regular like Marco, knowing his baseline helps you see that sooner."
+          });
+
+          points.push({
             label: "Kind and firm",
-            text: "Cutting someone off doesn’t have to be a confrontation. “I’m going to get you some water and close you out” does the same job as “I’m cutting you off” without putting him on the defensive in front of his friends."
-          },
-          {
-            label: "Don’t leave it open",
-            text: "Once you’ve made the call, the conversation is over. Staying in it too long, explaining yourself, or leaving room for negotiation is where it falls apart. Say it, offer the water, move on."
-          },
-          {
+            text: "You handled the cutoff in a way that kept the interaction calm. The best version of this is clear without being sharp — you’re closing the door on more alcohol, but not creating a confrontation in front of the table."
+          });
+
+          points.push({
+            label: "Don’t reopen it",
+            text: "Once the decision is made, it’s made. You didn’t leave it open, over-explain, or negotiate with him. That matters, because the longer the conversation stays alive, the harder it gets to control."
+          });
+
+          points.push({
             label: "Close the loop",
-            text: "Offering a ride or checking in once more before your next ticket isn’t required—but it’s the professional move. It protects everyone and it’s the kind of thing that keeps a regular coming back."
-          }
-        ];
+            text: "Offering water, checking on the ride situation, and then moving on is the professional finish. It protects everyone and helps the regular leave remembering that you handled it like a pro, not like a power trip."
+          });
+
+          return points;
+        }
+
+        if (wrongPoured) {
+          points.push({
+            label: "You waited past the decision point",
+            text: "Pouring the round means you treated a clear pattern like it was still a judgment call. At that point it wasn’t. The signs were already there, and the risk increased because you delayed acting when the picture was already clear."
+          });
+        }
+
+        if (wrongChecked) {
+          points.push({
+            label: "Checking in can become avoidance",
+            text: "A soft check-in sounds reasonable, but once the signs are this clear, it just delays the decision. The mistake isn’t caring how he’s doing — it’s acting like the call still needs more evidence when it really doesn’t."
+          });
+        }
+
+        if (wrongAbrupt) {
+          points.push({
+            label: "Tone changes the temperature",
+            text: "The cutoff itself was right, but the blunt approach made the moment harder than it needed to be. ‘I’m cutting you off’ can make someone feel singled out or embarrassed in front of their friends. You get a better result when you stay kind and matter-of-fact."
+          });
+        }
+
+        points.push({
+          label: "The call has to close the conversation",
+          text: "Once you know you’re done serving, the job is to shut the door cleanly. Offer water. Close the tab. Offer a ride. Then move on. The more room you leave after the decision, the more likely the situation turns into a negotiation."
+        });
+
+        points.push({
+          label: "Recovery matters too",
+          text: "You still got to the right outcome in the end, and that matters. The goal now is to get there sooner and more smoothly next time — not just to be technically right, but to manage the whole interaction cleanly."
+        });
+
+        return points;
       }
 
       function getChips() {
@@ -329,6 +369,13 @@
           "What if his friends at the table get involved?",
           "How do you rebuild the relationship with a regular after cutting them off?"
         ];
+      }
+
+      function getTakeaway() {
+        if (tookWrongPath) {
+          return "The decision is made when the signs are clear. The next step is saying it cleanly and not leaving the door open.";
+        }
+        return "The decision is made when the signs are clear. Everything after that is execution.";
       }
 
       function buildWrongPathContext() {
@@ -453,7 +500,7 @@
         document.getElementById("tkwy-area").innerHTML =
           '<div class="tkwy">' +
           '<div class="tklabel">Key takeaway</div>' +
-          '<div class="tktext">The decision is made when the signs are clear. Everything after that is execution.</div>' +
+          '<div class="tktext">' + getTakeaway() + '</div>' +
           '</div>';
 
         var chips = getChips();
