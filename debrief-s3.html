@@ -550,17 +550,17 @@
       }
 
       window.addEventListener("message", function (event) {
-        if (!event.data || event.data.type !== "debrief-data") return;
+        if (!event.data || event.data.type !== "debrief-s3-data") return;
         applyDebriefData(event.data);
-        setDebug("Received Captivate data.");
+        setDebug("Received Scenario 3 Captivate data.");
         renderPage();
       });
 
-      window.parent.postMessage({ type: "debrief-ready" }, "*");
+      window.parent.postMessage({ type: "debrief-s3-ready" }, "*");
 
       setTimeout(function () {
         if (!started) {
-          setDebug("No Captivate data received. Fallback render.");
+          setDebug("No Scenario 3 Captivate data received. Fallback render.");
           renderPage();
         }
       }, 1500);
