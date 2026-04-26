@@ -1,1 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scenario 3 Debrief | Bear McBride Learning Design</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background: #1a1a2e;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, sans-serif;
+      color: #ddddf0;
+    }
+    .wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #2c2c4a;
+    }
+    .mgr-av {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #ede9fe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+      color: #1a1a2e;
+    }
+    .mgr-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+    }
+    .mgr-title {
+      font-size: 11px;
+      color: #8888aa;
+    }
+    .brand {
+      font-size: 10px;
+      color: #555577;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      margin-left: auto;
+    }
+    .msg { margin-bottom: .85rem; }
+    .msg-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: #666688;
+      margin-bottom: 4px;
+    }
+    .msg-bubble {
+      font-size: 14px;
+      line-height: 1.65;
+      padding: .75rem .9rem;
+      border-radius: 8px;
+    }
+    .msg.mgr .msg-bubble {
+      background: #252540;
+      border: 1px solid #2c2c4a;
+      color: #ddddf0;
+    }
+    .msg.you .msg-bubble {
+      background: #2c3e6b;
+      color: #fff;
+      margin-left: 2.5rem;
+    }
+    .msg.you .msg-label {
+      text-align: right;
+      color: #666688;
+    }
+    .point-reveal {
+      background: #252540;
+      border: 1px solid #2c2c4a;
+      border-radius: 8px;
+      padding: .75rem .9rem;
+      margin-bottom: 8px;
+      font-size: 13px;
+      line-height: 1.65;
+      color: #ccccee;
+    }
+    .point-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: #8888aa;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+    .tkwy {
+      border-left: 3px solid #534ab7;
+      padding: .75rem 1rem;
+      margin: .85rem 0;
+      background: #252540;
+      border-radius: 0;
+    }
+    .tklabel {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #8888aa;
+      margin-bottom: 4px;
+    }
+    .tktext {
+      font-size: 14px;
+      line-height: 1.6;
+      font-style: italic;
+      color: #ddddf0;
+    }
+    .typing {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: .75rem .9rem;
+      background: #252540;
+      border: 1px solid #2c2c4a;
+      border-radius: 8px;
+      width: fit-content;
+      margin-bottom: .85rem;
+    }
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #666688;
+      animation: bounce .9s infinite;
+    }
+    .dot:nth-child(2) { animation-delay: .15s; }
+    .dot:nth-child(3) { animation-delay: .3s; }
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-5px); }
+    }
+    .chips-label {
+      font-size: 12px;
+      color: #666688;
+      margin-bottom: 6px;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: .85rem;
+    }
+    .chip {
+      background: #252540;
+      border: 1px solid #3c3c5a;
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 12px;
+      color: #aaaacc;
+      cursor: pointer;
+      transition: background .15s, border-color .15s;
+    }
+    .chip:hover {
+      background: #2c2c4a;
+      border-color: #6666aa;
+    }
+    .divider {
+      height: 1px;
+      background: #2c2c4a;
+      margin: .85rem 0;
+    }
+    .input-row {
+      display: flex;
+      gap: 8px;
+      margin-top: .5rem;
+    }
+    .chat-input {
+      flex: 1;
+      padding: .65rem .85rem;
+      border: 1px solid #3c3c5a;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      resize: none;
+      outline: none;
+      background: #252540;
+      color: #ddddf0;
+      transition: border-color .15s;
+    }
+    .chat-input:focus {
+      border-color: #7f77dd;
+    }
+    .chat-input::placeholder {
+      color: #555577;
+    }
+    .send-btn {
+      background: #534ab7;
+      border: none;
+      border-radius: 8px;
+      padding: .65rem 1.1rem;
+      font-size: 13px;
+      color: #fff;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background .15s;
+    }
+    .send-btn:hover {
+      background: #7f77dd;
+    }
+    .send-btn:disabled {
+      background: #333355;
+      color: #666688;
+      cursor: default;
+    }
+    .api-note {
+      font-size: 11px;
+      color: #444466;
+      text-align: center;
+      padding: .5rem 0;
+      margin-top: .5rem;
+    }
+    .debug {
+      font-size: 11px;
+      color: #8888aa;
+      margin-bottom: 10px;
+      word-break: break-word;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <div class="mgr-av">&#128188;</div>
+      <div>
+        <div class="mgr-name">Manager</div>
+        <div class="mgr-title">End-of-shift debrief &mdash; Scenario 3</div>
+      </div>
+      <div class="brand">Bear McBride Learning Design</div>
+    </div>
 
+    <div class="debug" id="debug-status">Waiting for Captivate data...</div>
+
+    <div id="opening-msg" class="msg mgr">
+      <div class="msg-label">Manager</div>
+      <div class="msg-bubble" id="opening-text"></div>
+    </div>
+
+    <div id="points-area"></div>
+    <div id="tkwy-area"></div>
+    <div id="chips-area"></div>
+    <div id="convo-area"></div>
+
+    <div id="input-area">
+      <div class="divider"></div>
+      <div class="input-row">
+        <textarea class="chat-input" id="chat-input" rows="2" placeholder="Type your own question..."></textarea>
+        <button class="send-btn" id="send-btn">Send</button>
+      </div>
+      <div class="api-note">Powered by Claude AI &mdash; responses are live</div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var wrongServe = false;
+      var wrongRefuse = false;
+      var tookWrongPath = false;
+      var conversationHistory = [];
+      var started = false;
+
+      function setDebug(text) {
+        var el = document.getElementById("debug-status");
+        if (el) el.textContent = text;
+        console.log(text);
+      }
+
+      function applyDebriefData(data) {
+        wrongServe = !!data.serve;
+        wrongRefuse = !!data.refuse;
+        tookWrongPath = wrongServe || wrongRefuse;
+      }
+
+      function getOpeningLine() {
+        if (!tookWrongPath) {
+          return "Good call. The Riley ID situation wasn’t about spotting a fake on instinct — it was about recognizing uncertainty and using the right process instead of guessing.";
+        }
+
+        return "Let’s talk through that Riley ID check. The tricky part wasn’t whether the license looked unusual — it was what you did with that uncertainty once you noticed it.";
+      }
+
+      function getPoints() {
+        var points = [];
+
+        if (!tookWrongPath) {
+          points.push({
+            label: "Uncertainty is the signal",
+            text: "That vertical format is what made this scenario tricky. It didn’t automatically mean Riley was underage, but it did mean you were in a gray area. The key move was recognizing that uncertainty instead of pretending it wasn’t there."
+          });
+
+          points.push({
+            label: "Birthdate alone wasn’t enough",
+            text: "You saw a birthdate that looked valid, but the unusual format still created doubt. This scenario was designed to test whether you’d trust your own quick interpretation or follow process when the picture wasn’t clean."
+          });
+
+          points.push({
+            label: "Manager escalation is the right process",
+            text: "Getting the manager wasn’t overkill. It was exactly the point. On an uncertain ID, the right move is escalation — not guessing yes because you hope it’s fine, and not guessing no because the format feels off."
+          });
+
+          points.push({
+            label: "Outcome doesn’t validate skipping process",
+            text: "It turned out Riley was 21. That doesn’t mean a guess would have been the right move. What protects you and the business is following the process consistently, not getting lucky after the fact."
+          });
+
+          return points;
+        }
+
+        if (wrongServe) {
+          points.push({
+            label: "Guessing yes is still guessing",
+            text: "Serving Riley because the birthdate looked okay means you resolved uncertainty by hoping your interpretation was right. The problem isn’t that Riley happened to be 21 — it’s that you skipped the process and trusted a guess."
+          });
+        }
+
+        if (wrongRefuse) {
+          points.push({
+            label: "Guessing no is still guessing",
+            text: "Refusing service based on the vertical format alone turns uncertainty into a snap judgment. That feels safe in the moment, but it isn’t process — it’s bias. The right move was to escalate, not to decide the format by itself meant no."
+          });
+        }
+
+        points.push({
+          label: "The scenario was about process, not instinct",
+          text: "This wasn’t really a fake-ID gotcha. It was a process test. Once the ID created real uncertainty, the question stopped being ‘What do you think?’ and became ‘What does the right escalation path look like?’"
+        });
+
+        points.push({
+          label: "Consistency protects you",
+          text: "When the rule is ‘uncertain ID means manager,’ you don’t have to improvise. That consistency protects the business, protects you, and makes the next ambiguous situation easier to handle the same way."
+        });
+
+        return points;
+      }
+
+      function getChips() {
+        if (tookWrongPath) {
+          return [
+            "Why wasn’t the birthdate alone enough to serve Riley?",
+            "Why is refusing based on the vertical format also the wrong move?",
+            "What makes this a process problem instead of a judgment problem?",
+            "How do I explain that manager call to the guest without sounding unsure?"
+          ];
+        }
+
+        return [
+          "Why was manager escalation the right move if Riley turned out to be 21?",
+          "How do I handle it when an ID looks unusual but not obviously fake?",
+          "What should I say to the guest while I’m getting the manager?",
+          "How do I stay consistent on ambiguous IDs without slowing service too much?"
+        ];
+      }
+
+      function getTakeaway() {
+        if (tookWrongPath) {
+          return "When the ID creates real uncertainty, don’t guess yes and don’t guess no. Use the process.";
+        }
+        return "The right move on an uncertain ID is escalation, not interpretation.";
+      }
+
+      function buildWrongPathContext() {
+        var parts = [];
+
+        if (wrongServe) {
+          parts.push("served Riley based on the birthdate alone instead of escalating an uncertain ID");
+        }
+        if (wrongRefuse) {
+          parts.push("refused Riley based on the vertical format alone instead of escalating an uncertain ID");
+        }
+
+        if (parts.length === 0) {
+          return "The bartender handled the uncertain ID correctly by escalating to the manager instead of guessing.";
+        }
+
+        return "The bartender made the following relevant choices during the scenario: " + parts.join("; ") + ".";
+      }
+
+      function addMessage(role, text) {
+        var area = document.getElementById("convo-area");
+        if (!area) return;
+
+        var d = document.createElement("div");
+        d.className = "msg " + role;
+        var label = role === "mgr" ? "Manager" : "You";
+        d.innerHTML =
+          '<div class="msg-label">' + label + '</div>' +
+          '<div class="msg-bubble">' + text + '</div>';
+        area.appendChild(d);
+        d.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+
+      function showTyping() {
+        var area = document.getElementById("convo-area");
+        if (!area) return null;
+
+        var d = document.createElement("div");
+        d.className = "msg mgr";
+        d.innerHTML =
+          '<div class="msg-label">Manager</div>' +
+          '<div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
+        area.appendChild(d);
+        d.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        return d;
+      }
+
+      function askAI(question) {
+        addMessage("you", question);
+
+        var typing = showTyping();
+        var sb = document.getElementById("send-btn");
+        if (sb) sb.disabled = true;
+
+        conversationHistory.push({ role: "user", content: question });
+
+        var systemPrompt =
+          "You are the manager of a bar, debriefing a bartender after a training scenario about an ambiguous ID check.\n\n" +
+          "Scenario details: Riley presented an ID with a valid-looking birthdate but an unusual vertical format. The correct move was not to guess yes or no, but to recognize uncertainty and get the manager. The point of the scenario is process under uncertainty, not spotting an obvious fake.\n\n" +
+          buildWrongPathContext() + "\n\n" +
+          "Key principles to draw on:\n" +
+          "- Uncertainty is the signal to escalate\n" +
+          "- Birthdate alone is not enough when the format creates doubt\n" +
+          "- Vertical format alone is not enough to refuse service\n" +
+          "- The manager call is the process, not a bailout\n" +
+          "- Good outcomes do not justify skipping process\n" +
+          "- Consistency protects the bartender and the business\n\n" +
+          "Your tone: warm, direct, experienced. Speak like a real manager after a real shift. Keep responses to 3-5 sentences. No bullet points. Draw on the specific details of Riley, the ID format, and the manager escalation when relevant.";
+
+        fetch("/.netlify/functions/claude-proxy", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            model: "claude-sonnet-4-20250514",
+            max_tokens: 300,
+            system: systemPrompt,
+            messages: conversationHistory
+          })
+        })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (typing && typing.parentNode) typing.parentNode.removeChild(typing);
+
+          var text = "";
+          if (data && data.content && data.content.length > 0) {
+            data.content.forEach(function (b) {
+              if (b.type === "text") text += b.text;
+            });
+          }
+
+          if (!text) {
+            text = "The key here is that the unusual format created uncertainty. Once that happens, your job is to use the process — not to talk yourself into yes or no based on instinct.";
+          }
+
+          conversationHistory.push({ role: "assistant", content: text });
+          addMessage("mgr", text);
+          if (sb) sb.disabled = false;
+        })
+        .catch(function () {
+          if (typing && typing.parentNode) typing.parentNode.removeChild(typing);
+
+          var fallback = "The key here is that the unusual format created uncertainty. Once that happens, your job is to use the process — not to talk yourself into yes or no based on instinct.";
+          addMessage("mgr", fallback);
+          conversationHistory.push({ role: "assistant", content: fallback });
+          if (sb) sb.disabled = false;
+        });
+      }
+
+      function renderPage() {
+        if (started) return;
+        started = true;
+
+        document.getElementById("opening-text").textContent = getOpeningLine();
+
+        var points = getPoints();
+        var pointsHtml = "";
+        points.forEach(function (point) {
+          pointsHtml +=
+            '<div class="point-reveal">' +
+            '<div class="point-label">' + point.label + '</div>' +
+            point.text +
+            '</div>';
+        });
+        document.getElementById("points-area").innerHTML = pointsHtml;
+
+        document.getElementById("tkwy-area").innerHTML =
+          '<div class="tkwy">' +
+          '<div class="tklabel">Key takeaway</div>' +
+          '<div class="tktext">' + getTakeaway() + '</div>' +
+          '</div>';
+
+        var chips = getChips();
+        var chipsHtml = '<div class="chips-label">Ask the manager a question:</div><div class="chips">';
+        chips.forEach(function (c, i) {
+          chipsHtml += '<button class="chip" id="chip-' + i + '" data-q="' + c.replace(/"/g, "&quot;") + '">' + c + '</button>';
+        });
+        chipsHtml += "</div>";
+        document.getElementById("chips-area").innerHTML = chipsHtml;
+
+        chips.forEach(function (_, i) {
+          var el = document.getElementById("chip-" + i);
+          if (el) {
+            el.addEventListener("click", function () {
+              var q = this.getAttribute("data-q");
+              document.getElementById("chips-area").innerHTML = "";
+              askAI(q);
+            });
+          }
+        });
+
+        var sb = document.getElementById("send-btn");
+        var ci = document.getElementById("chat-input");
+
+        if (sb && ci) {
+          sb.addEventListener("click", function () {
+            var q = ci.value.trim();
+            if (q) {
+              ci.value = "";
+              askAI(q);
+            }
+          });
+
+          ci.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              var q = ci.value.trim();
+              if (q) {
+                ci.value = "";
+                askAI(q);
+              }
+            }
+          });
+        }
+
+        setDebug(
+          "Rendered. serve=" + wrongServe +
+          ", refuse=" + wrongRefuse
+        );
+      }
+
+      window.addEventListener("message", function (event) {
+        if (!event.data || event.data.type !== "debrief-data") return;
+        applyDebriefData(event.data);
+        setDebug("Received Captivate data.");
+        renderPage();
+      });
+
+      window.parent.postMessage({ type: "debrief-ready" }, "*");
+
+      setTimeout(function () {
+        if (!started) {
+          setDebug("No Captivate data received. Fallback render.");
+          renderPage();
+        }
+      }, 1500);
+    })();
+  </script>
+</body>
+</html>
