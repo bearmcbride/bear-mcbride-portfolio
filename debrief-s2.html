@@ -1,1 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scenario 2 Debrief | Bear McBride Learning Design</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background: #1a1a2e;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, sans-serif;
+      color: #ddddf0;
+    }
+    .wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #2c2c4a;
+    }
+    .mgr-av {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #ede9fe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+      color: #1a1a2e;
+    }
+    .mgr-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+    }
+    .mgr-title {
+      font-size: 11px;
+      color: #8888aa;
+    }
+    .brand {
+      font-size: 10px;
+      color: #555577;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      margin-left: auto;
+    }
+    .msg { margin-bottom: .85rem; }
+    .msg-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: #666688;
+      margin-bottom: 4px;
+    }
+    .msg-bubble {
+      font-size: 14px;
+      line-height: 1.65;
+      padding: .75rem .9rem;
+      border-radius: 8px;
+    }
+    .msg.mgr .msg-bubble {
+      background: #252540;
+      border: 1px solid #2c2c4a;
+      color: #ddddf0;
+    }
+    .msg.you .msg-bubble {
+      background: #2c3e6b;
+      color: #fff;
+      margin-left: 2.5rem;
+    }
+    .msg.you .msg-label {
+      text-align: right;
+      color: #666688;
+    }
+    .point-reveal {
+      background: #252540;
+      border: 1px solid #2c2c4a;
+      border-radius: 8px;
+      padding: .75rem .9rem;
+      margin-bottom: 8px;
+      font-size: 13px;
+      line-height: 1.65;
+      color: #ccccee;
+    }
+    .point-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: #8888aa;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+    .tkwy {
+      border-left: 3px solid #534ab7;
+      padding: .75rem 1rem;
+      margin: .85rem 0;
+      background: #252540;
+      border-radius: 0;
+    }
+    .tklabel {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #8888aa;
+      margin-bottom: 4px;
+    }
+    .tktext {
+      font-size: 14px;
+      line-height: 1.6;
+      font-style: italic;
+      color: #ddddf0;
+    }
+    .typing {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: .75rem .9rem;
+      background: #252540;
+      border: 1px solid #2c2c4a;
+      border-radius: 8px;
+      width: fit-content;
+      margin-bottom: .85rem;
+    }
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #666688;
+      animation: bounce .9s infinite;
+    }
+    .dot:nth-child(2) { animation-delay: .15s; }
+    .dot:nth-child(3) { animation-delay: .3s; }
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-5px); }
+    }
+    .chips-label {
+      font-size: 12px;
+      color: #666688;
+      margin-bottom: 6px;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: .85rem;
+    }
+    .chip {
+      background: #252540;
+      border: 1px solid #3c3c5a;
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 12px;
+      color: #aaaacc;
+      cursor: pointer;
+      transition: background .15s, border-color .15s;
+    }
+    .chip:hover {
+      background: #2c2c4a;
+      border-color: #6666aa;
+    }
+    .divider {
+      height: 1px;
+      background: #2c2c4a;
+      margin: .85rem 0;
+    }
+    .input-row {
+      display: flex;
+      gap: 8px;
+      margin-top: .5rem;
+    }
+    .chat-input {
+      flex: 1;
+      padding: .65rem .85rem;
+      border: 1px solid #3c3c5a;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      resize: none;
+      outline: none;
+      background: #252540;
+      color: #ddddf0;
+      transition: border-color .15s;
+    }
+    .chat-input:focus {
+      border-color: #7f77dd;
+    }
+    .chat-input::placeholder {
+      color: #555577;
+    }
+    .send-btn {
+      background: #534ab7;
+      border: none;
+      border-radius: 8px;
+      padding: .65rem 1.1rem;
+      font-size: 13px;
+      color: #fff;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background .15s;
+    }
+    .send-btn:hover {
+      background: #7f77dd;
+    }
+    .send-btn:disabled {
+      background: #333355;
+      color: #666688;
+      cursor: default;
+    }
+    .api-note {
+      font-size: 11px;
+      color: #444466;
+      text-align: center;
+      padding: .5rem 0;
+      margin-top: .5rem;
+    }
+    .debug {
+      font-size: 11px;
+      color: #8888aa;
+      margin-bottom: 10px;
+      word-break: break-word;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <div class="mgr-av">&#128188;</div>
+      <div>
+        <div class="mgr-name">Manager</div>
+        <div class="mgr-title">End-of-shift debrief &mdash; Scenario 2</div>
+      </div>
+      <div class="brand">Bear McBride Learning Design</div>
+    </div>
 
+    <div class="debug" id="debug-status">Waiting for Captivate data...</div>
+
+    <div id="opening-msg" class="msg mgr">
+      <div class="msg-label">Manager</div>
+      <div class="msg-bubble" id="opening-text"></div>
+    </div>
+
+    <div id="points-area"></div>
+    <div id="tkwy-area"></div>
+    <div id="chips-area"></div>
+    <div id="convo-area"></div>
+
+    <div id="input-area">
+      <div class="divider"></div>
+      <div class="input-row">
+        <textarea class="chat-input" id="chat-input" rows="2" placeholder="Type your own question..."></textarea>
+        <button class="send-btn" id="send-btn">Send</button>
+      </div>
+      <div class="api-note">Powered by Claude AI &mdash; responses are live</div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var wrongServe = false;
+      var wrongExplain = false;
+      var wrongCompromise = false;
+      var managerEarly = false;
+      var tookWrongPath = false;
+      var conversationHistory = [];
+      var started = false;
+
+      function setDebug(text) {
+        var el = document.getElementById("debug-status");
+        if (el) el.textContent = text;
+        console.log(text);
+      }
+
+      function applyDebriefData(data) {
+        wrongServe = !!data.serve;
+        wrongExplain = !!data.explain;
+        wrongCompromise = !!data.compromise;
+        managerEarly = !!data.managerEarly;
+        tookWrongPath = wrongServe || wrongExplain || wrongCompromise;
+      }
+
+      function getOpeningLine() {
+        if (!tookWrongPath && managerEarly) {
+          return "Nice work. You didn’t let Cal reopen a decision that was already made, and bringing me in early was exactly the right call when you wanted backup.";
+        }
+
+        if (!tookWrongPath) {
+          return "Good work tonight. The Cal conversation is where a lot of bartenders get pulled into defending themselves, and you didn’t let that happen.";
+        }
+
+        return "Alright, let’s talk through that Cal situation. You got to the right general outcome, but there were a few spots where his pressure changed the way you handled a decision that was already made.";
+      }
+
+      function getPoints() {
+        var points = [];
+
+        if (!tookWrongPath) {
+          points.push({
+            label: "The second ask isn’t new information",
+            text: "Cal sounded reasonable on purpose. That’s what makes this scenario tricky. But he wasn’t giving you new information about Marco — he was trying to reopen a call you had already made correctly."
+          });
+
+          if (managerEarly) {
+            points.push({
+              label: "Escalation is a strength, not a bailout",
+              text: "Getting the manager early was absolutely valid. You didn’t second-guess yourself — you used support. In a real bar, that protects you, protects the house, and keeps the pressure from turning into a one-on-one argument."
+            });
+          } else {
+            points.push({
+              label: "One clear answer is enough",
+              text: "You didn’t defend the call, negotiate it, or soften it into something debatable. That matters. The more explanation you give, the more someone like Cal hears room to keep pushing."
+            });
+          }
+
+          points.push({
+            label: "Changing the angle doesn’t change the answer",
+            text: "That’s the whole point of Cal’s second attempt. He came back with a different emotional angle to make the first answer feel incomplete. But your answer doesn’t change just because the pressure gets more personal."
+          });
+
+          points.push({
+            label: "A quick heads-up closes the loop",
+            text: "When somebody pushes back on service the way Cal did, it’s worth giving the manager a fast heads-up before end of shift. Not because you did anything wrong — because it protects you if the situation comes back later."
+          });
+
+          return points;
+        }
+
+        if (wrongServe) {
+          points.push({
+            label: "A reasonable argument can still be the wrong move",
+            text: "Cal’s pitch sounded responsible on purpose: he’s sober, he’s driving, he’ll watch Marco. None of that changed what you already knew. Letting that one-more-drink argument work means you treated persuasion like evidence."
+          });
+        }
+
+        if (wrongExplain) {
+          points.push({
+            label: "Explaining reopens the decision",
+            text: "The moment you start walking someone through policy or liability, the conversation changes. You’re no longer closing the issue — you’re defending it. And once Cal hears that, he knows there’s still room to keep working on you."
+          });
+        }
+
+        if (wrongCompromise) {
+          points.push({
+            label: "Compromise still means renegotiation",
+            text: "Offering one beer instead of something stronger feels like a middle ground, but it sends the same message: the cutoff was flexible. If the original call was right — and it was — then changing the terms teaches the guest that persistence works."
+          });
+        }
+
+        points.push({
+          label: "This scenario was about holding the line",
+          text: "The hard part here wasn’t deciding whether Marco should be cut off. You had already done that. The real test was whether somebody else could make you treat that finished decision like it was still up for discussion."
+        });
+
+        points.push({
+          label: "Manager support is always available",
+          text: "If the pressure keeps coming, getting the manager is never the wrong move. That isn’t punting. It’s the right escalation path when a guest or friend is trying to undo a call that’s already been correctly made."
+        });
+
+        return points;
+      }
+
+      function getChips() {
+        if (tookWrongPath) {
+          return [
+            "Why is Cal’s second ask pressure and not new information?",
+            "Why is explaining the policy a mistake if the policy is on my side?",
+            "Why doesn’t offering one beer count as a reasonable compromise?",
+            "When should I bring in the manager on a conversation like this?"
+          ];
+        }
+
+        return [
+          "Why does Cal’s approach work on so many bartenders?",
+          "What makes manager escalation a strong move instead of a fallback?",
+          "How do I stay firm without sounding defensive?",
+          "What do I do if Cal keeps pushing after I’ve already answered once?"
+        ];
+      }
+
+      function getTakeaway() {
+        if (tookWrongPath) {
+          return "Once someone tries to reverse a correct call, the conversation is already over. Your answer doesn’t change just because the pressure does.";
+        }
+        return "The second ask is just more pressure, not more evidence. A correct call stays correct.";
+      }
+
+      function buildWrongPathContext() {
+        var parts = [];
+
+        if (wrongServe) {
+          parts.push("allowed Cal to order one more drink for Marco because Cal sounded responsible and credible");
+        }
+        if (wrongExplain) {
+          parts.push("explained the policy and reasoning to Cal, which reopened the conversation");
+        }
+        if (wrongCompromise) {
+          parts.push("offered a compromise such as one beer, which renegotiated a decision that should have stayed closed");
+        }
+        if (managerEarly) {
+          parts.push("used manager escalation early in the scenario");
+        }
+
+        if (parts.length === 0) {
+          return "The bartender handled the scenario correctly and held the original cutoff under pressure.";
+        }
+
+        return "The bartender made or encountered the following relevant choices during the scenario: " + parts.join("; ") + ".";
+      }
+
+      function addMessage(role, text) {
+        var area = document.getElementById("convo-area");
+        if (!area) return;
+
+        var d = document.createElement("div");
+        d.className = "msg " + role;
+        var label = role === "mgr" ? "Manager" : "You";
+        d.innerHTML =
+          '<div class="msg-label">' + label + '</div>' +
+          '<div class="msg-bubble">' + text + '</div>';
+        area.appendChild(d);
+        d.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+
+      function showTyping() {
+        var area = document.getElementById("convo-area");
+        if (!area) return null;
+
+        var d = document.createElement("div");
+        d.className = "msg mgr";
+        d.innerHTML =
+          '<div class="msg-label">Manager</div>' +
+          '<div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
+        area.appendChild(d);
+        d.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        return d;
+      }
+
+      function askAI(question) {
+        addMessage("you", question);
+
+        var typing = showTyping();
+        var sb = document.getElementById("send-btn");
+        if (sb) sb.disabled = true;
+
+        conversationHistory.push({ role: "user", content: question });
+
+        var systemPrompt =
+          "You are the manager of a bar, debriefing a bartender after a training scenario about holding a correct cutoff decision when a guest's friend tries to reverse it.\n\n" +
+          "Scenario details: The bartender had already correctly cut off Marco. Forty minutes later, Marco was drinking water. Cal, Marco's friend, came to the bar sounding calm, credible, and responsible. He argued for one more drink and later came back with a second angle. The skill being tested is recognizing third-party lobbying as pressure rather than new information, and holding the original decision without negotiating it. Manager escalation is always a valid move.\n\n" +
+          buildWrongPathContext() + "\n\n" +
+          "Key principles to draw on:\n" +
+          "- The original cutoff decision was already correct\n" +
+          "- A second ask is pressure, not new evidence\n" +
+          "- Explaining too much reopens the conversation\n" +
+          "- Compromise still teaches the guest that persistence works\n" +
+          "- Getting the manager is a strong move, not a fallback\n" +
+          "- The goal is to close the conversation cleanly, not to win an argument\n\n" +
+          "Your tone: warm, direct, experienced. Speak like a real manager after a real shift. Keep responses to 3-5 sentences. No bullet points. Draw on the specific details of Cal, Marco, and the pressure dynamic when relevant.";
+
+        fetch("/.netlify/functions/claude-proxy", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            model: "claude-sonnet-4-20250514",
+            max_tokens: 300,
+            system: systemPrompt,
+            messages: conversationHistory
+          })
+        })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (typing && typing.parentNode) typing.parentNode.removeChild(typing);
+
+          var text = "";
+          if (data && data.content && data.content.length > 0) {
+            data.content.forEach(function (b) {
+              if (b.type === "text") text += b.text;
+            });
+          }
+
+          if (!text) {
+            text = "The big thing here is that Cal didn’t bring you new information — he brought you pressure. Once the original cutoff is correct, your job is to keep the answer closed, not to defend it into the ground.";
+          }
+
+          conversationHistory.push({ role: "assistant", content: text });
+          addMessage("mgr", text);
+          if (sb) sb.disabled = false;
+        })
+        .catch(function () {
+          if (typing && typing.parentNode) typing.parentNode.removeChild(typing);
+
+          var fallback = "The big thing here is that Cal didn’t bring you new information — he brought you pressure. Once the original cutoff is correct, your job is to keep the answer closed, not to defend it into the ground.";
+          addMessage("mgr", fallback);
+          conversationHistory.push({ role: "assistant", content: fallback });
+          if (sb) sb.disabled = false;
+        });
+      }
+
+      function renderPage() {
+        if (started) return;
+        started = true;
+
+        document.getElementById("opening-text").textContent = getOpeningLine();
+
+        var points = getPoints();
+        var pointsHtml = "";
+        points.forEach(function (point) {
+          pointsHtml +=
+            '<div class="point-reveal">' +
+            '<div class="point-label">' + point.label + '</div>' +
+            point.text +
+            '</div>';
+        });
+        document.getElementById("points-area").innerHTML = pointsHtml;
+
+        document.getElementById("tkwy-area").innerHTML =
+          '<div class="tkwy">' +
+          '<div class="tklabel">Key takeaway</div>' +
+          '<div class="tktext">' + getTakeaway() + '</div>' +
+          '</div>';
+
+        var chips = getChips();
+        var chipsHtml = '<div class="chips-label">Ask the manager a question:</div><div class="chips">';
+        chips.forEach(function (c, i) {
+          chipsHtml += '<button class="chip" id="chip-' + i + '" data-q="' + c.replace(/"/g, "&quot;") + '">' + c + '</button>';
+        });
+        chipsHtml += "</div>";
+        document.getElementById("chips-area").innerHTML = chipsHtml;
+
+        chips.forEach(function (_, i) {
+          var el = document.getElementById("chip-" + i);
+          if (el) {
+            el.addEventListener("click", function () {
+              var q = this.getAttribute("data-q");
+              document.getElementById("chips-area").innerHTML = "";
+              askAI(q);
+            });
+          }
+        });
+
+        var sb = document.getElementById("send-btn");
+        var ci = document.getElementById("chat-input");
+
+        if (sb && ci) {
+          sb.addEventListener("click", function () {
+            var q = ci.value.trim();
+            if (q) {
+              ci.value = "";
+              askAI(q);
+            }
+          });
+
+          ci.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              var q = ci.value.trim();
+              if (q) {
+                ci.value = "";
+                askAI(q);
+              }
+            }
+          });
+        }
+
+        setDebug(
+          "Rendered. serve=" + wrongServe +
+          ", explain=" + wrongExplain +
+          ", compromise=" + wrongCompromise +
+          ", managerEarly=" + managerEarly
+        );
+      }
+
+      window.addEventListener("message", function (event) {
+        if (!event.data || event.data.type !== "debrief-data") return;
+        applyDebriefData(event.data);
+        setDebug("Received Captivate data.");
+        renderPage();
+      });
+
+      window.parent.postMessage({ type: "debrief-ready" }, "*");
+
+      setTimeout(function () {
+        if (!started) {
+          setDebug("No Captivate data received. Fallback render.");
+          renderPage();
+        }
+      }, 1500);
+    })();
+  </script>
+</body>
+</html>
