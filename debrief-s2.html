@@ -396,18 +396,10 @@
       function buildWrongPathContext() {
         var parts = [];
 
-        if (wrongServe) {
-          parts.push("allowed Cal to order one more drink for Marco because Cal sounded responsible and credible");
-        }
-        if (wrongExplain) {
-          parts.push("explained the policy and reasoning to Cal, which reopened the conversation");
-        }
-        if (wrongCompromise) {
-          parts.push("offered a compromise such as one beer, which renegotiated a decision that should have stayed closed");
-        }
-        if (managerEarly) {
-          parts.push("used manager escalation early in the scenario");
-        }
+        if (wrongServe) parts.push("allowed Cal to order one more drink for Marco because Cal sounded responsible and credible");
+        if (wrongExplain) parts.push("explained the policy and reasoning to Cal, which reopened the conversation");
+        if (wrongCompromise) parts.push("offered a compromise such as one beer, which renegotiated a decision that should have stayed closed");
+        if (managerEarly) parts.push("used manager escalation early in the scenario");
 
         if (parts.length === 0) {
           return "The bartender handled the scenario correctly and held the original cutoff under pressure.";
@@ -580,17 +572,17 @@
       }
 
       window.addEventListener("message", function (event) {
-        if (!event.data || event.data.type !== "debrief-data") return;
+        if (!event.data || event.data.type !== "debrief-s2-data") return;
         applyDebriefData(event.data);
-        setDebug("Received Captivate data.");
+        setDebug("Received Scenario 2 Captivate data.");
         renderPage();
       });
 
-      window.parent.postMessage({ type: "debrief-ready" }, "*");
+      window.parent.postMessage({ type: "debrief-s2-ready" }, "*");
 
       setTimeout(function () {
         if (!started) {
-          setDebug("No Captivate data received. Fallback render.");
+          setDebug("No Scenario 2 Captivate data received. Fallback render.");
           renderPage();
         }
       }, 1500);
